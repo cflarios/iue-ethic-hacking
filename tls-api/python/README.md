@@ -26,14 +26,14 @@ Cómo configurar autenticación TLS entre cliente y servidor usando Python.
 
 Abre una terminal e introduce el siguiente comando:
 
-    ```
-    python3 server.py
-    ```
+```bash
+python3 server.py
+```
 
 ## Paso 3: Correr el cliente
 
 Abre una terminal e introduce el siguiente comando:
 
-    ```
-    python3 client.py
-    ```
+```bash
+python3 client.py
+```
