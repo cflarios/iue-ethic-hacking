@@ -1,6 +1,6 @@
 # API REST Básica con Node.js y Express
 
-Este es un ejemplo de una API REST sencilla construida utilizando Node.js y el framework Express. La API gestiona una lista de tareas (todos) y permite realizar operaciones básicas como obtener todos los elementos, agregar nuevos elementos y eliminar elementos por índice.
+Este es un ejemplo de una API REST sencilla construida utilizando Node.js y el framework Express. La API gestiona una lista de tareas (ToDo's) y permite realizar operaciones básicas como obtener todos los elementos, agregar nuevos elementos y eliminar elementos por índice.
 
 ## Instalación
 
