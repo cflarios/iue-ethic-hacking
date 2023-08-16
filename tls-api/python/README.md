@@ -17,16 +17,16 @@ Cómo configurar autenticación TLS entre cliente y servidor usando Python.
 - **ST**, el cual es el nombre del estado o la provincia, ej: Antioquia;
 - **L** *(opcional)*, el cual es el nombre de la ciudad, ej: Medellin;
 - **O**, es el nombre de la organización;
-- **OU** *(optional)*, es el nombre del departamento de la organización;
+- **OU** *(opcional)*, es el nombre del departamento de la organización;
 - **CN**, el cual es el hostname:
   - **Warning** Si cambias el valor de **CN**, tendrás que cambiar la variable 'hostname' en el archivo [client.py](client.py) con la que elegiste.
-- **emailAddress** *(optional)*, es el correo electrónico.
+- **emailAddress** *(opcional)*, es el correo electrónico.
 
 ## Paso 2: Correr el servidor
 
 Abre una terminal e introduce el siguiente comando:
 
-    ```bash
+    ```
     python3 server.py
     ```
 
@@ -34,6 +34,6 @@ Abre una terminal e introduce el siguiente comando:
 
 Abre una terminal e introduce el siguiente comando:
 
-    ```bash
+    ```
     python3 client.py
     ```
