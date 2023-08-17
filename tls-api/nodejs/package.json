@@ -8,7 +8,7 @@
     "azure-dev": "nodemon -w azure-keyvault-integration --exec 'npm run client-keyvault-cert'",
     "client-keyvault-cert": "node ./azure-keyvault-integration/keyvault-cert.js",
     "client-keyvault-secret": "node ./azure-keyvault-integration/keyvault-secret.js",
-    "server": "node ./server/server.js",
+    "start": "node ./server/server.js",
     "valid-client": "node ./client/valid.js",
     "invalid-client": "node ./client/invalid.js",
     "release": "standard-version --sign"
