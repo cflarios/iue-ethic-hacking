@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+
+  python_basic_api:
+    image: python_basic_api:1.0
+    restart: always
+    ports:
+      - 5000:5000
+
+  python_ssl_api:
+    image: python_ssl_api:1.0
+    restart: always
+    ports:
+      - 4443:4443
+
+  node_basic_api:
+    image: node_basic_api:1.0
+    restart: always
+    ports:
+      - 3000:3000
+
+  node_ssl_api:
+    image: node_ssl_api:1.0
+    restart: always
+    ports:
+      - 4433:4433
