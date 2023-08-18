@@ -42,7 +42,7 @@ clear
 ## ______________________________
 #Superadmin?
 
-printf "\n\n👥 ¿Necesitas ejecutar con permisos de administrador? \n\n"
+printf "\n\n👥 ¿Necesitas ejecutar con permisos de administrador? (Solo para Linux) \n\n"
 
 PS3='   Superadmin?: '
 options=("Sí" "No")
