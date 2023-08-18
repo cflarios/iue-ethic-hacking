@@ -16,7 +16,7 @@ rand-str()
 
 
 clear
-cat << "EOF"
+msg=$(cat << "EOF"
   _   _            _                _____ _   _           
  | | | | __ _  ___| | _____  ___   | ____| |_(_) ___ ___  
  | |_| |/ _` |/ __| |/ / _ \/ _ \  |  _| | __| |/ __/ _ \ 
@@ -24,12 +24,13 @@ cat << "EOF"
  |_| |_|\__,_|\___|_|\_\___|\___/  |_____|\__|_|\___\___/ 
                                                            
 EOF
+)
 
 tput setaf 128;
 printf "$msg"
 tput setaf 7;
 
-printf "\n\n\nBienvenido. \n\n"
+printf "\n\n\n¡Bienvenido! 🍷🗿  \n\n"
 printf "   🧒 By: $(tput setaf 128)@cflarios$(tput setaf 7)\n"
 printf "   📅 Date: $(tput setaf 128)17/08/2023$(tput setaf 7)\n\n"
 
@@ -45,15 +46,15 @@ printf "\n\n👥 ¿Necesitas ejecutar con permisos de administrador? \n\n"
 
 PS3='   Superadmin?: '
 options=("Sí" "No")
-select opt in "${options[@]}"
+select optio in "${options[@]}"
 do
     case $REPLY in
         "1")
-            echo "         Superadmin? ► ${character} ✅" && SUPERADMIN="sudo"
+            echo "         Superadmin? ► ${character} ✅" && SUPERADMIN="sudo" && NOTIF_SUPERADMIN="Sí"
             break
             ;;
         "2")
-            echo "         Superadmin? ► ${character} ❎" && SUPERADMIN=""
+            echo "         Superadmin? ► ${character} ❎" && SUPERADMIN="" && NOTIF_SUPERADMIN="No"
             break
             ;;
         *) echo "invalid option $REPLY";;
@@ -68,7 +69,7 @@ clear
 run_node_basic_container() {
     sleep 2
     clear
-    printf "\n\nEjecutando el contenedor $1...\n\n"
+    printf "\n\n🐋 Ejecutando el contenedor $1...\n\n"
     CONTAINER_NODE_BASIC_ID=$($SUPERADMIN docker run --name node_basic -d -p 3000:3000 $1)
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_NODE_BASIC_ID
@@ -84,16 +85,16 @@ run_node_basic_container() {
     curl -X GET http://localhost:3000/data
     sleep 3
     clear
-    printf "\n\nDeteniendo el contenedor $1...\n\n"
+    printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_NODE_BASIC_ID
-    printf "\n\nEliminando el contenedor $1...\n\n"
+    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_BASIC_ID
 }
 
 run_python_basic_container() {
     sleep 2
     clear
-    printf "\n\nEjecutando el contenedor $1...\n\n"
+    printf "\n\n🐋 Ejecutando el contenedor $1...\n\n"
     CONTAINER_PYTHON_BASIC_ID=$($SUPERADMIN docker run --name python_basic -d -p 5000:5000 $1)
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_PYTHON_BASIC_ID
@@ -109,16 +110,16 @@ run_python_basic_container() {
     curl -X GET http://localhost:5000/data
     sleep 3
     clear
-    printf "\n\nDeteniendo el contenedor $1...\n\n"
+    printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_PYTHON_BASIC_ID
-    printf "\n\nEliminando el contenedor $1...\n\n"
+    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_BASIC_ID
 }
 
 run_node_ssl_container() {
     sleep 2
     clear
-    printf "\n\nEjecutando el contenedor $1...\n\n"
+    printf "\n\n🐋 Ejecutando el contenedor $1...\n\n"
     CONTAINER_NODE_SSL_ID=$($SUPERADMIN docker run --name node_ssl -d -p 4433:4433 $1)
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_NODE_SSL_ID
@@ -133,16 +134,16 @@ run_node_ssl_container() {
     printf "\n\nCliente inválido ❌\n\n"
     sleep 3
     clear
-    printf "\n\nDeteniendo el contenedor $1...\n\n"
+    printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_NODE_SSL_ID
-    printf "\n\nEliminando el contenedor $1...\n\n"
+    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_SSL_ID
 }
 
 run_python_ssl_container() {
     sleep 2
     clear
-    printf "\n\nEjecutando el contenedor $1...\n\n"
+    printf "\n\n🐋 Ejecutando el contenedor $1...\n\n"
     CONTAINER_PYTHON_SSL_ID=$($SUPERADMIN docker run --name python_ssl -d -p 4443:4443 $1)
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_PYTHON_SSL_ID
@@ -154,9 +155,9 @@ run_python_ssl_container() {
     printf "\n\nCliente válido ✅\n\n"
     sleep 2
     clear
-    printf "\n\nDeteniendo el contenedor $1...\n\n"
+    printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_PYTHON_SSL_ID
-    printf "\n\nEliminando el contenedor $1...\n\n"
+    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_SSL_ID
 }
 
@@ -172,11 +173,11 @@ select opt in "${options[@]}"
 do
     case $REPLY in
         "1")
-            echo "         SSL? ► ${character} ✅"
+            echo "         SSL? ► ${character} ✅" && NOTIF_SSL="Sí"
             break
             ;;
         "2")
-            echo "         SSL? ► ${character} ❎"
+            echo "         SSL? ► ${character} ❎" && NOTIF_SSL="No"
             break
             ;;
         *) echo "invalid option $REPLY";;
@@ -241,20 +242,29 @@ fi
 sleep 5
 
 clear
-cat << "EOF"
+msg=$(cat << "EOF"
   ____                                      
  |  _ \ ___  ___ _   _ _ __ ___   ___ _ __  
  | |_) / _ \/ __| | | | '_ ` _ \ / _ \ '_ \ 
  |  _ <  __/\__ \ |_| | | | | | |  __/ | | |
  |_| \_\___||___/\__,_|_| |_| |_|\___|_| |_|
 EOF
+)
 
 tput setaf 128;
 printf "$msg"
 tput setaf 7;
 
 printf "\n\n\n"
-printf "   🟢 SSL?: $(tput setaf 128)${opt}$(tput setaf 7)\n"
+
+if [ $optio == 1 ]; 
+    then
+        printf "   🟢 Superadmin?: $(tput setaf 128)${NOTIF_SUPERADMIN}$(tput setaf 7)\n" 
+    else
+        printf "   🟢 Superadmin?: $(tput setaf 128)${NOTIF_SUPERADMIN}$(tput setaf 7)\n"
+fi
+
+printf "   🟢 SSL?: $(tput setaf 128)${NOTIF_SSL}$(tput setaf 7)\n"
 printf "   🟢 Node.js o Python?: $(tput setaf 128)${opti}$(tput setaf 7)\n"
 
 printf "\n\n\n\n";
