@@ -227,6 +227,7 @@ build_python_basic_image() {
 }
 
 no_build(){
+    BUILD=1
     sleep 2
     clear
     printf "\n\n🚫 Sin imagen no hay aplicación, vuelve ejecutar el script o construye las imágenes a mano 🚫\n\n"
@@ -362,18 +363,18 @@ clear
 ## ______________________________
 #Run container
 
-if [[ $NODE_CONTAINER -eq 1 ]] && [[ $PYTHON_CONTAINER -eq 0 ]] && [[ $BUILD -ne 0 ]]; 
+if [[ $NODE_CONTAINER -eq 1 ]] && [[ $PYTHON_CONTAINER -eq 0 ]] && [[ $BUILD -eq 0 ]]; 
     then
         run_node_ssl_container node_ssl_api:1.0
-elif [[ $NODE_CONTAINER -eq 2 ]] && [[ $PYTHON_CONTAINER -eq 0 ]] && [[ $BUILD -ne 0 ]];
+elif [[ $NODE_CONTAINER -eq 2 ]] && [[ $PYTHON_CONTAINER -eq 0 ]] && [[ $BUILD -eq 0 ]];
     then
         run_node_basic_container node_basic_api:1.0
 fi
 
-if [ $PYTHON_CONTAINER == 1 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -ne 0 ]]; 
+if [ $PYTHON_CONTAINER == 1 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -eq 0 ]]; 
     then
         run_python_ssl_container python_ssl_api:1.0
-elif [ $PYTHON_CONTAINER == 2 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -ne 0 ]];
+elif [ $PYTHON_CONTAINER == 2 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -eq 0 ]];
     then
         run_python_basic_container python_basic_api:1.0
 fi
