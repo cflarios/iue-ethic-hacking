@@ -71,7 +71,7 @@ run_node_basic_container() {
     printf "\n\nEjecutando el contenedor $1...\n\n"
     CONTAINER_NODE_BASIC_ID=$($SUPERADMIN docker run --name node_basic -d -p 3000:3000 $1)
     sleep 1
-    docker logs $CONTAINER_NODE_BASIC_ID
+    $SUPERADMIN docker logs $CONTAINER_NODE_BASIC_ID
     sleep 3
     printf "\n\nPublicando datos...\n\n"
     curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:3000/data
@@ -85,9 +85,9 @@ run_node_basic_container() {
     sleep 3
     clear
     printf "\n\nDeteniendo el contenedor $1...\n\n"
-    docker stop $CONTAINER_NODE_BASIC_ID
+    $SUPERADMIN docker stop $CONTAINER_NODE_BASIC_ID
     printf "\n\nEliminando el contenedor $1...\n\n"
-    docker rm $CONTAINER_NODE_BASIC_ID
+    $SUPERADMIN docker rm $CONTAINER_NODE_BASIC_ID
 }
 
 run_python_basic_container() {
@@ -96,7 +96,7 @@ run_python_basic_container() {
     printf "\n\nEjecutando el contenedor $1...\n\n"
     CONTAINER_PYTHON_BASIC_ID=$($SUPERADMIN docker run --name python_basic -d -p 5000:5000 $1)
     sleep 1
-    docker logs $CONTAINER_PYTHON_BASIC_ID
+    $SUPERADMIN docker logs $CONTAINER_PYTHON_BASIC_ID
     sleep 3
     printf "\n\nPublicando datos...\n\n"
     curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:5000/data
@@ -110,9 +110,9 @@ run_python_basic_container() {
     sleep 3
     clear
     printf "\n\nDeteniendo el contenedor $1...\n\n"
-    docker stop $CONTAINER_PYTHON_BASIC_ID
+    $SUPERADMIN docker stop $CONTAINER_PYTHON_BASIC_ID
     printf "\n\nEliminando el contenedor $1...\n\n"
-    docker rm $CONTAINER_PYTHON_BASIC_ID
+    $SUPERADMIN docker rm $CONTAINER_PYTHON_BASIC_ID
 }
 
 run_node_ssl_container() {
@@ -120,7 +120,8 @@ run_node_ssl_container() {
     clear
     printf "\n\nEjecutando el contenedor $1...\n\n"
     CONTAINER_NODE_SSL_ID=$($SUPERADMIN docker run --name node_ssl -d -p 4433:4433 $1)
-    docker logs $CONTAINER_NODE_SSL_ID
+    sleep 1
+    $SUPERADMIN docker logs $CONTAINER_NODE_SSL_ID
     sleep 3
     printf "\n\nValidando cliente N°1...\n\n"
     cd ./tls-api/nodejs/
@@ -133,9 +134,9 @@ run_node_ssl_container() {
     sleep 3
     clear
     printf "\n\nDeteniendo el contenedor $1...\n\n"
-    docker stop $CONTAINER_NODE_SSL_ID
+    $SUPERADMIN docker stop $CONTAINER_NODE_SSL_ID
     printf "\n\nEliminando el contenedor $1...\n\n"
-    docker rm $CONTAINER_NODE_SSL_ID
+    $SUPERADMIN docker rm $CONTAINER_NODE_SSL_ID
 }
 
 run_python_ssl_container() {
@@ -143,8 +144,8 @@ run_python_ssl_container() {
     clear
     printf "\n\nEjecutando el contenedor $1...\n\n"
     CONTAINER_PYTHON_SSL_ID=$($SUPERADMIN docker run --name python_ssl -d -p 4443:4443 $1)
-    sleep 2
-    docker logs $CONTAINER_PYTHON_SSL_ID
+    sleep 1
+    $SUPERADMIN docker logs $CONTAINER_PYTHON_SSL_ID
     sleep 3
     printf "\n\nHaciendo prueba cliente-servidor...\n\n"
     cd ./tls-api/python/
@@ -154,9 +155,9 @@ run_python_ssl_container() {
     sleep 2
     clear
     printf "\n\nDeteniendo el contenedor $1...\n\n"
-    docker stop $CONTAINER_PYTHON_SSL_ID
+    $SUPERADMIN docker stop $CONTAINER_PYTHON_SSL_ID
     printf "\n\nEliminando el contenedor $1...\n\n"
-    docker rm $CONTAINER_PYTHON_SSL_ID
+    $SUPERADMIN docker rm $CONTAINER_PYTHON_SSL_ID
 }
 
 ## ______________________________
