@@ -14,7 +14,6 @@ rand-str()
     # -dc: delete complementary set == delete all except given set
 }
 
-
 clear
 msg=$(cat << "EOF"
   _   _            _                _____ _   _           
@@ -30,19 +29,112 @@ tput setaf 128;
 printf "$msg"
 tput setaf 7;
 
-printf "\n\n\n¡Bienvenido! 🍷🗿  \n\n"
-printf "   🧒 By: $(tput setaf 128)@cflarios$(tput setaf 7)\n"
-printf "   📅 Date: $(tput setaf 128)17/08/2023$(tput setaf 7)\n\n"
+printf "\n\n\n"
+printf "   🧒 By:       $(tput setaf 128)@cflarios$(tput setaf 7)\n"
+printf "   🐙 GitHub:   $(tput setaf 128)https://github.com/cflarios$(tput setaf 7)\n"
+printf "   📅 Date:     $(tput setaf 128)$(date +"%A, %d %B %Y, %T %Z")$(tput setaf 7)\n"
+printf "   🖥️  OS:       $(tput setaf 128)$(lsb_release -d | awk '{print $2, $3, $4}')$(tput setaf 7)\n\n" 
 
+printf "\n\n"
 read -p "Presiona [enter] para continuar..."                                                                                                                                                                                                                
 
 clear 
 
+##
+## Requisitos
+
+printf "\n\n📦 Comprobando requisitos... \n\n"
+
+# Linux
+
+printf "   🐧 Linux: "
+if [ -x "$(command -v lsb_release)" ]; then
+    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+else
+    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    exit 1
+fi
+
+sleep 1
+
+# Docker
+printf "   🐋 Docker: "
+if [ -x "$(command -v docker)" ]; then
+    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+else
+    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "   🐋 Instalando Docker... \n"
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sh get-docker.sh
+    printf "   🐋 Docker instalado ✅\n"
+fi
+
+sleep 1
+
+# Node
+
+printf "   📦 Node: "
+if [ -x "$(command -v node)" ]; then
+    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+else
+    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "   📦 Instalando Node... \n"
+    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    printf "   📦 Node instalado ✅\n"
+fi
+
+sleep 1
+
+# NPM
+
+printf "   📦 NPM: "
+if [ -x "$(command -v npm)" ]; then
+    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+else
+    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "   📦 Instalando NPM... \n"
+    sudo apt install npm
+    printf "   📦 NPM instalado ✅\n"
+fi
+
+sleep 1
+
+# Python
+
+printf "   🐍 Python: "
+if [ -x "$(command -v python3)" ]; then
+    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+else
+    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "   🐍 Instalando Python... \n"
+    sudo apt install python3
+    printf "   🐍 Python instalado ✅\n"
+fi
+
+sleep 1
+
+#Pip
+
+printf "   🐍 Pip: "
+if [ -x "$(command -v pip3)" ]; then
+    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+else
+    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "   🐍 Instalando Pip... \n"
+    sudo apt install python3-pip
+    printf "   🐍 Pip instalado ✅\n"
+fi
+
+printf "\n\n"
+read -p "Presiona [enter] para continuar..."  
+
+clear 
 
 ## ______________________________
 #Superadmin?
 
-printf "\n\n👥 ¿Necesitas ejecutar con permisos de administrador? (Solo para Linux) \n\n"
+printf "\n\n👥 ¿Necesitas ejecutar con permisos de administrador? \n\n"
 
 PS3='   Superadmin?: '
 options=("Sí" "No")
@@ -74,13 +166,13 @@ run_node_basic_container() {
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_NODE_BASIC_ID
     sleep 3
-    printf "\n\nPublicando datos...\n\n"
+    printf "\n\n📨 Publicando datos...\n\n"
     curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:3000/data
     sleep 3
-    printf "\n\nObteniendo datos...\n\n"
+    printf "\n\n📬 Obteniendo datos...\n\n"
     curl http://localhost:3000/data
     sleep 3
-    printf "\n\nEliminando datos...\n\n"
+    printf "\n\n📭 Eliminando datos...\n\n"
     curl -X DELETE http://localhost:3000/data/0
     curl -X GET http://localhost:3000/data
     sleep 3
@@ -104,13 +196,13 @@ run_python_basic_container() {
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_PYTHON_BASIC_ID
     sleep 3
-    printf "\n\nPublicando datos...\n\n"
+    printf "\n\n📨 Publicando datos...\n\n"
     curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:5000/data
     sleep 3
-    printf "\n\nObteniendo datos...\n\n"
+    printf "\n\n📬 Obteniendo datos...\n\n"
     curl http://localhost:5000/data
     sleep 3
-    printf "\n\nEliminando datos...\n\n"
+    printf "\n\n📭 Eliminando datos...\n\n"
     curl -X DELETE http://localhost:5000/data/0
     curl -X GET http://localhost:5000/data
     sleep 3
@@ -135,13 +227,20 @@ run_node_ssl_container() {
     $SUPERADMIN docker logs $CONTAINER_NODE_SSL_ID
     sleep 3
     printf "\n\nValidando cliente N°1...\n\n"
-    cd ./tls-api/nodejs/
+    local __NODE_BUILD=$NODE_SSL_BUILD
+
+    if [[ "$__NODE_BUILD" == 1 ]]; then
+            cd .
+    else
+            cd ./tls-api/nodejs/
+    fi
+    
     npm run valid-client
     printf "\n\nCliente válido ✅\n\n"
     sleep 5
-    printf "\n\nValidando cliente N°2...\n\n"
+    printf "\n\n👤 Validando cliente N°2...\n\n"
     npm run invalid-client
-    printf "\n\nCliente inválido ❌\n\n"
+    printf "\n\n👤 Cliente inválido ❌\n\n"
     sleep 3
     clear
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
@@ -163,7 +262,7 @@ run_python_ssl_container() {
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_PYTHON_SSL_ID
     sleep 3
-    printf "\n\nHaciendo prueba cliente-servidor...\n\n"
+    printf "\n\n⚙️ Haciendo prueba cliente-servidor...\n\n"
     local __PYTHON_BUILD=$PYTHON_SSL_BUILD
 
     if [[ "$__PYTHON_BUILD" == 1 ]]; then
@@ -191,6 +290,7 @@ run_python_ssl_container() {
 # Función para construir una imagen
 build_node_ssl_image() {
     sleep 2
+    NODE_SSL_BUILD=1
     clear
     printf "\n\n🐋 Construyendo la imagen $1...\n\n"
     cd ./tls-api/nodejs/
@@ -226,14 +326,97 @@ build_python_basic_image() {
     sleep 3
 }
 
-no_build(){
+
+# Sin docker
+no_build_node_ssl(){
     BUILD=1
     sleep 2
     clear
-    printf "\n\n🚫 Sin imagen no hay aplicación, vuelve ejecutar el script o construye las imágenes a mano 🚫\n\n"
+    cd ./tls-api/nodejs/
+    printf "\n\n📦 Instalando paquetes y dependencias\n\n"
+    npm install
     sleep 2
-    printf "\n\n🗨️  En caso de que quieras hacerlo a mano, puedes leer los 'README.md' que se encuentran en cada carpeta. \n\n"
+    printf "\n\n💡 Iniciando servidor\n\n"
+    tmux new-session -s node -d 'npm start'
+    printf "\n\nServidor iniciado en localhost:4433 ✅\n\n"
     sleep 2
+    printf "\n\n👤 Validando cliente N°1...\n\n"
+    npm run valid-client
+    sleep 2
+    printf "\n\n👤 Validando cliente N°2...\n\n"
+    npm run invalid-client
+    sleep 2
+    tmux kill-session -t node
+    sleep 2
+}
+
+no_build_python_ssl(){
+    BUILD=1
+    sleep 2
+    clear
+    cd ./tls-api/python/
+    sleep 1
+    printf "\n\n💡 Iniciando servidor\n\n"
+    tmux new-session -s python -d 'python3 server.py'
+    printf "\n\nServidor iniciado en localhost:4443 ✅\n\n"
+    sleep 2
+    printf "\n\n⚙️ Haciendo prueba cliente-servidor...\n\n"
+    python3 client.py
+    sleep 3
+    printf "\n\nCliente válido ✅\n\n"
+}
+
+no_build_node_basic(){
+    BUILD=1
+    sleep 2
+    clear
+    cd ./non-tls-api/nodejs/
+    printf "\n\n📦 Instalando paquetes y dependencias\n\n"
+    npm install
+    sleep 2
+    clear
+    printf "\n\n💡 Iniciando servidor\n\n"
+    tmux new-session -s node -d 'npm start'
+    printf "\n\nServidor iniciado en localhost:3000 ✅\n\n"
+    sleep 2
+    printf "\n\n📨 Publicando datos...\n\n"
+    curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:3000/data
+    sleep 3
+    printf "\n\n📬 Obteniendo datos...\n\n"
+    curl http://localhost:3000/data
+    sleep 3
+    printf "\n\n📭 Eliminando datos...\n\n"
+    curl -X DELETE http://localhost:3000/data/0
+    curl -X GET http://localhost:3000/data
+    sleep 3
+    tmux kill-session -t node
+    clear
+}
+
+no_build_python_basic(){
+    BUILD=1
+    sleep 2
+    clear
+    cd ./non-tls-api/python/
+    printf "\n\n📦 Instalando paquetes y dependencias\n\n"
+    pip3 install -r requirements.txt
+    sleep 2
+    clear
+    printf "\n\n💡 Iniciando servidor\n\n"
+    tmux new-session -s python -d 'python3 app.py'
+    printf "\n\nServidor iniciado en localhost:3000 ✅\n\n"
+    sleep 2
+    printf "\n\n📨 Publicando datos...\n\n"
+    curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:5000/data
+    sleep 3
+    printf "\n\n📬 Obteniendo datos...\n\n"
+    curl http://localhost:5000/data
+    sleep 3
+    printf "\n\n📭 Eliminando datos...\n\n"
+    curl -X DELETE http://localhost:5000/data/0
+    curl -X GET http://localhost:5000/data
+    sleep 3
+    clear
 }
 
 ## ______________________________
@@ -248,11 +431,11 @@ select opt in "${options[@]}"
 do
     case $REPLY in
         "1")
-            echo "         SSL? ► ${character} ✅" && NOTIF_SSL="Sí"
+            echo "         SSL? ► ${character} 🔐" && NOTIF_SSL="Sí"
             break
             ;;
         "2")
-            echo "         SSL? ► ${character} ❎" && NOTIF_SSL="No"
+            echo "         SSL? ► ${character} 🔓" && NOTIF_SSL="No"
             break
             ;;
         *) echo "invalid option $REPLY";;
@@ -267,7 +450,7 @@ clear
 
 ## ______________________________
 #Nodejs or Python?
-printf "\n\n💻 ¿Cuál framework? ¿Node.js o Python? \n\n"
+printf "\n\n💻 ¿Node.js o Python? \n\n"
 printf "   Si tu respuesta es 'Node.js', selecciona '1'. \n"
 printf "   Si tu respuesta es 'Python', selecciona '2'. \n\n"
 
@@ -280,11 +463,11 @@ if [[ $SSL -eq 1 ]]
         do
             case $REPLY in
                 "1")
-                    echo "         Node.js? ► ${character} 📌" && NODE_CONTAINER=1 && PYTHON_CONTAINER=0
+                    echo "         Node.js? ► ${character} 📦" && NODE_CONTAINER=1 && PYTHON_CONTAINER=0 && NODE=1 && PYTHON=0
                     break
                     ;;
                 "2")
-                    echo "         Python? ► ${character} 🐍" && PYTHON_CONTAINER=1 && NODE_CONTAINER=0
+                    echo "         Python? ► ${character} 🐍" && PYTHON_CONTAINER=1 && NODE_CONTAINER=0 && PYTHON=1 && NODE=0
                     break
                     ;;
                 *) echo "invalid option $REPLY";;
@@ -300,11 +483,11 @@ if [[ $SSL -eq 2 ]]
         do
             case $REPLY in
                 "1")
-                    echo "         Node.js? ► ${character} 📌" && NODE_CONTAINER=2 && PYTHON_CONTAINER=0
+                    echo "         Node.js? ► ${character} 📦" && NODE_CONTAINER=2 && PYTHON_CONTAINER=0 && NODE=2 && PYTHON=0
                     break
                     ;;
                 "2")
-                    echo "         Python? ► ${character} 🐍" && PYTHON_CONTAINER=2 && NODE_CONTAINER=0
+                    echo "         Python? ► ${character} 🐍" && PYTHON_CONTAINER=2 && NODE_CONTAINER=0 && PYTHON=2 && NODE=0
                     break
                     ;;
                 *) echo "invalid option $REPLY";;
@@ -321,17 +504,17 @@ clear
 ## ______________________________
 #Build image
 
-printf "\n\n🐋 ¿Quieres construir la imagen? \n\n"
+printf "\n\n🐋 ¿Quieres usar Docker? $(tput setaf 128)(Recomendado)$(tput setaf 7) \n\n"
 printf "   Si tu respuesta es 'SÍ', selecciona '1'. \n"
 printf "   Si tu respuesta es 'No', selecciona '2'. \n\n"
 
-PS3='   Construir imagen?: '
+PS3='   Usar Docker?: '
 options=("Sí" "No")
 select opt in "${options[@]}"
 do
     case $REPLY in
         "1")
-            echo "         Construir imagen? ► ${character} ✅" && NOTIF_BUILD="Sí"
+            echo "         Usar Docker? ► ${character} 🐋❤️" && NOTIF_BUILD="Sí"
 
             if [[ $NODE_CONTAINER -eq 1 ]] && [[ $PYTHON_CONTAINER -eq 0 ]]; 
                 then
@@ -349,14 +532,28 @@ do
             break
             ;;
         "2")
-            echo "         Construir imagen? ► ${character} ❎" && NOTIF_BUILD="No" && PYTHON_SSL_BUILD=0 && BUILD=0 && no_build
+            echo "         Usar Docker? ► ${character} ❎" && NOTIF_BUILD="No" && PYTHON_SSL_BUILD=0 && NODE_SSL_BUILD=0 && BUILD=0
+
+            if [[ $NODE -eq 1 ]] && [[ $PYTHON -eq 0 ]]; 
+                then
+                    no_build_node_ssl
+            elif [[ $NODE -eq 2 ]] && [[ $PYTHON -eq 0 ]]; 
+                then
+                    no_build_node_basic
+            elif [[ $PYTHON -eq 1 ]] && [[ $NODE -eq 0 ]]; 
+                then
+                    no_build_python_ssl
+            elif [[ $PYTHON -eq 2 ]] && [[ $NODE -eq 0 ]];
+                then
+                    no_build_python_basic
+            fi
             break
             ;;
         *) echo "invalid option $REPLY";;
     esac
 done
 
-sleep 2
+sleep 1
 
 clear
 
@@ -379,7 +576,7 @@ elif [ $PYTHON_CONTAINER == 2 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -eq 0 ]
         run_python_basic_container python_basic_api:1.0
 fi
 
-sleep 2
+sleep 1
 
 clear
 
@@ -407,10 +604,12 @@ fi
 
 printf "   🟢 SSL?: $(tput setaf 128)${NOTIF_SSL}$(tput setaf 7)\n"
 printf "   🟢 Node.js o Python?: $(tput setaf 128)${opti}$(tput setaf 7)\n"
-printf "   🟢 Construir imagen?: $(tput setaf 128)${NOTIF_BUILD}$(tput setaf 7)\n"
+printf "   🟢 Docker?: $(tput setaf 128)${NOTIF_BUILD}$(tput setaf 7)\n"
 
-printf "\n\n\n\n";
+printf "\n\n";
 read -p "Presiona [enter] para finalizar..."
-sleep 2
+sleep 1
 
 clear
+
+exit 0
