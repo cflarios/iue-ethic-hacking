@@ -91,7 +91,7 @@ run_node_basic_container() {
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_BASIC_ID
     sleep 1
-    printf "\n\n🫡  Eliminando el imagen $1...\n\n"
+    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
@@ -121,7 +121,7 @@ run_python_basic_container() {
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_BASIC_ID
     sleep 1
-    printf "\n\n🫡  Eliminando el imagen $1...\n\n"
+    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
@@ -150,7 +150,7 @@ run_node_ssl_container() {
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_SSL_ID
     sleep 1
-    printf "\n\n🫡  Eliminando el imagen $1...\n\n"
+    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
