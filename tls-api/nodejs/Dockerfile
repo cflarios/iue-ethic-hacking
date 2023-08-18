@@ -17,4 +17,4 @@ COPY . /app/
 EXPOSE 4433
 
 # Comando para ejecutar la aplicación
-CMD ["bash", "-c", "npm run start & sleep 3 && npm run valid-client && sleep 2 && npm run invalid-client"]
+CMD ["bash", "-c", "npm start"]

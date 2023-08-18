@@ -59,3 +59,5 @@ Una vez que la imagen esté construida, puedes ejecutar un contenedor basado en 
 ```bash
 docker run -p 4443:4443 python_ssl_api:1.0   
 ```
+
+**NOTA**: Este contenedor solo tendrá el `servidor`, el `cliente` se ejecuta desde tu máquina host.

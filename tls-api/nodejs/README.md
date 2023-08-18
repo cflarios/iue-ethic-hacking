@@ -98,5 +98,7 @@ Esto creará una imagen llamada `node_ssl_api` con la versión `1.0`.
 Una vez que la imagen esté construida, puedes ejecutar un contenedor basado en ella con el siguiente comando:
 
 ```bash
-docker run -p 5000:5000 node_ssl_api:1.0   
+docker run -p 4433:4433 node_ssl_api:1.0   
 ```
+
+**NOTA**: Este contenedor solo tendrá el `servidor`, el `cliente` se ejecuta desde tu máquina host.

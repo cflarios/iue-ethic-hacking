@@ -29,10 +29,9 @@ tput setaf 128;
 printf "$msg"
 tput setaf 7;
 
-printf "\n\n\nBienvenido, este script ejecutará los 4 proyectos de las API. \n\n"
-printf "Verás entre paréntesis y en $(tput setaf 128)(este color)$(tput setaf 7) la opción por defecto que se selecciona presionando enter.\n"
-printf "De lo contrario podrás ingresar manualmente la opción solicitada.\n"
-printf "No te preocupes al final del cuestionario, verás un resumen antes de confirmar.\n\n\n"
+printf "\n\n\nBienvenido. \n\n"
+printf "   🧒 By: $(tput setaf 128)@cflarios$(tput setaf 7)\n"
+printf "   📅 Date: $(tput setaf 128)17/08/2023$(tput setaf 7)\n\n"
 
 read -p "Presiona [enter] para continuar..."                                                                                                                                                                                                                
 
@@ -55,6 +54,7 @@ run_node_basic_container() {
     sleep 3
     printf "\n\nDeteniendo el contenedor $1...\n\n"
     docker stop $CONTAINER_NODE_BASIC_ID
+    printf "\n\nEliminando el contenedor $1...\n\n"
     docker rm $CONTAINER_NODE_BASIC_ID
 }
 
@@ -76,6 +76,7 @@ run_python_basic_container() {
     sleep 3
     printf "\n\nDeteniendo el contenedor $1...\n\n"
     docker stop $CONTAINER_PYTHON_BASIC_ID
+    printf "\n\nEliminando el contenedor $1...\n\n"
     docker rm $CONTAINER_PYTHON_BASIC_ID
 }
 
@@ -83,19 +84,37 @@ run_node_ssl_container() {
     printf "\n\nEjecutando el contenedor $1...\n\n"
     CONTAINER_NODE_SSL_ID=$(docker run --name node_ssl -d -p 4433:4433 $1)
     docker logs $CONTAINER_NODE_SSL_ID
+    sleep 3
+    printf "\n\nValidando cliente N°1...\n\n"
+    cd ./tls-api/nodejs/
+    npm run valid-client
+    printf "\n\nCliente válido ✅\n\n"
     sleep 5
+    printf "\n\nValidando cliente N°2...\n\n"
+    npm run invalid-client
+    printf "\n\nCliente inválido ❌\n\n"
+    sleep 3
     printf "\n\nDeteniendo el contenedor $1...\n\n"
     docker stop $CONTAINER_NODE_SSL_ID
+    printf "\n\nEliminando el contenedor $1...\n\n"
     docker rm $CONTAINER_NODE_SSL_ID
 }
 
 run_python_ssl_container() {
     printf "\n\nEjecutando el contenedor $1...\n\n"
     CONTAINER_PYTHON_SSL_ID=$(docker run --name python_ssl -d -p 4443:4443 $1)
+    sleep 2
     docker logs $CONTAINER_PYTHON_SSL_ID
-    sleep 5
+    sleep 3
+    printf "\n\nHaciendo prueba cliente-servidor...\n\n"
+    cd ./tls-api/python/
+    python3 client.py
+    sleep 3
+    printf "\n\nCliente válido ✅\n\n"
+    sleep 2
     printf "\n\nDeteniendo el contenedor $1...\n\n"
     docker stop $CONTAINER_PYTHON_SSL_ID
+    printf "\n\nEliminando el contenedor $1...\n\n"
     docker rm $CONTAINER_PYTHON_SSL_ID
 }
 

@@ -38,7 +38,7 @@ Visita el sitio web oficial de Wireshark para descargar e instalar la versión a
 
 ## Captura de Tráfico HTTPS
 
-Si deseas capturar tráfico HTTPS, ten en cuenta que el contenido estará cifrado. Para capturar y analizar el contenido cifrado, es necesario configurar Wireshark con las claves privadas SSL/TLS correspondientes. Ten en cuenta que esto puede requerir acceso a las claves privadas utilizadas en el tráfico HTTPS y debe hacerse con responsabilidad y de manera ética.
+Si deseas capturar tráfico HTTPS, ten en cuenta que el contenido estará cifrado. Para capturar y analizar el contenido cifrado, es necesario configurar Wireshark con las claves privadas SSL/TLS correspondientes. Ten en cuenta que esto puede requerir acceso a las claves privadas utilizadas en el tráfico HTTPS y debe hacerse con responsabilidad y de manera ética. El filtro recomendado para ver el tráfico HTTPS es `tls`
 
 ## Captura de Tráfico en LocalHost (127.0.0.1)
 
