@@ -87,8 +87,13 @@ run_node_basic_container() {
     clear
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_NODE_BASIC_ID
+    sleep 1
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_BASIC_ID
+    sleep 1
+    printf "\n\n🫡  Eliminando el imagen $1...\n\n"
+    $SUPERADMIN docker rmi $1
+    sleep 1
 }
 
 run_python_basic_container() {
@@ -112,8 +117,13 @@ run_python_basic_container() {
     clear
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_PYTHON_BASIC_ID
+    sleep 1
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_BASIC_ID
+    sleep 1
+    printf "\n\n🫡  Eliminando el imagen $1...\n\n"
+    $SUPERADMIN docker rmi $1
+    sleep 1
 }
 
 run_node_ssl_container() {
@@ -136,8 +146,13 @@ run_node_ssl_container() {
     clear
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_NODE_SSL_ID
+    sleep 1
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_SSL_ID
+    sleep 1
+    printf "\n\n🫡  Eliminando el imagen $1...\n\n"
+    $SUPERADMIN docker rmi $1
+    sleep 1
 }
 
 run_python_ssl_container() {
@@ -149,7 +164,14 @@ run_python_ssl_container() {
     $SUPERADMIN docker logs $CONTAINER_PYTHON_SSL_ID
     sleep 3
     printf "\n\nHaciendo prueba cliente-servidor...\n\n"
-    cd ./tls-api/python/
+    local __PYTHON_BUILD=$PYTHON_SSL_BUILD
+
+    if [[ "$__PYTHON_BUILD" == 1 ]]; then
+            cd .
+    else
+            cd ./tls-api/python/
+    fi
+
     python3 client.py
     sleep 3
     printf "\n\nCliente válido ✅\n\n"
@@ -157,8 +179,60 @@ run_python_ssl_container() {
     clear
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_PYTHON_SSL_ID
+    sleep 1
     printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_SSL_ID
+    sleep 1
+    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
+    $SUPERADMIN docker rmi $1
+    sleep 1
+}
+
+# Función para construir una imagen
+build_node_ssl_image() {
+    sleep 2
+    clear
+    printf "\n\n🐋 Construyendo la imagen $1...\n\n"
+    cd ./tls-api/nodejs/
+    $SUPERADMIN docker build -t $1 .
+    sleep 3
+}
+
+build_python_ssl_image() {
+    sleep 2
+    PYTHON_SSL_BUILD=1
+    clear
+    printf "\n\n🐋 Construyendo la imagen $1...\n\n"
+    cd ./tls-api/python/
+    $SUPERADMIN docker build -t $1 .
+    sleep 3
+}
+
+build_node_basic_image() {
+    sleep 2
+    clear
+    printf "\n\n🐋 Construyendo la imagen $1...\n\n"
+    cd ./non-tls-api/nodejs/
+    $SUPERADMIN docker build -t $1 .
+    sleep 3
+}
+
+build_python_basic_image() {
+    sleep 2
+    clear
+    printf "\n\n🐋 Construyendo la imagen $1...\n\n"
+    cd ./non-tls-api/python/
+    $SUPERADMIN docker build -t $1 .
+    sleep 3
+}
+
+no_build(){
+    sleep 2
+    clear
+    printf "\n\n🚫 Sin imagen no hay aplicación, vuelve ejecutar el script o construye las imágenes a mano 🚫\n\n"
+    sleep 2
+    printf "\n\n🗨️  En caso de que quieras hacerlo a mano, puedes leer los 'README.md' que se encuentran en cada carpeta. \n\n"
+    sleep 2
 }
 
 ## ______________________________
@@ -205,11 +279,11 @@ if [[ $SSL -eq 1 ]]
         do
             case $REPLY in
                 "1")
-                    echo "         Node.js? ► ${character} 📌" && run_node_ssl_container node_ssl_api:1.0
+                    echo "         Node.js? ► ${character} 📌" && NODE_CONTAINER=1 && PYTHON_CONTAINER=0
                     break
                     ;;
                 "2")
-                    echo "         Python? ► ${character} 🐍" && run_python_ssl_container python_ssl_api:1.0
+                    echo "         Python? ► ${character} 🐍" && PYTHON_CONTAINER=1 && NODE_CONTAINER=0
                     break
                     ;;
                 *) echo "invalid option $REPLY";;
@@ -225,11 +299,11 @@ if [[ $SSL -eq 2 ]]
         do
             case $REPLY in
                 "1")
-                    echo "         Node.js? ► ${character} 📌" && run_node_basic_container node_basic_api:1.0
+                    echo "         Node.js? ► ${character} 📌" && NODE_CONTAINER=2 && PYTHON_CONTAINER=0
                     break
                     ;;
                 "2")
-                    echo "         Python? ► ${character} 🐍" && run_python_basic_container python_basic_api:1.0
+                    echo "         Python? ► ${character} 🐍" && PYTHON_CONTAINER=2 && NODE_CONTAINER=0
                     break
                     ;;
                 *) echo "invalid option $REPLY";;
@@ -239,9 +313,75 @@ if [[ $SSL -eq 2 ]]
         printf "\n"
 fi
 
-sleep 5
+sleep 2
 
 clear
+
+## ______________________________
+#Build image
+
+printf "\n\n🐋 ¿Quieres construir la imagen? \n\n"
+printf "   Si tu respuesta es 'SÍ', selecciona '1'. \n"
+printf "   Si tu respuesta es 'No', selecciona '2'. \n\n"
+
+PS3='   Construir imagen?: '
+options=("Sí" "No")
+select opt in "${options[@]}"
+do
+    case $REPLY in
+        "1")
+            echo "         Construir imagen? ► ${character} ✅" && NOTIF_BUILD="Sí"
+
+            if [[ $NODE_CONTAINER -eq 1 ]] && [[ $PYTHON_CONTAINER -eq 0 ]]; 
+                then
+                    build_node_ssl_image node_ssl_api:1.0
+            elif [[ $NODE_CONTAINER -eq 2 ]] && [[ $PYTHON_CONTAINER -eq 0 ]]; 
+                then
+                    build_node_basic_image node_basic_api:1.0
+            elif [[ $PYTHON_CONTAINER -eq 1 ]] && [[ $NODE_CONTAINER -eq 0 ]]; 
+                then
+                    build_python_ssl_image python_ssl_api:1.0
+            elif [[ $PYTHON_CONTAINER -eq 2 ]] && [[ $NODE_CONTAINER -eq 0 ]];
+                then
+                    build_python_basic_image python_basic_api:1.0
+            fi
+            break
+            ;;
+        "2")
+            echo "         Construir imagen? ► ${character} ❎" && NOTIF_BUILD="No" && PYTHON_SSL_BUILD=0 && BUILD=0 && no_build
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
+
+sleep 2
+
+clear
+
+## ______________________________
+#Run container
+
+if [[ $NODE_CONTAINER -eq 1 ]] && [[ $PYTHON_CONTAINER -eq 0 ]] && [[ $BUILD -ne 0 ]]; 
+    then
+        run_node_ssl_container node_ssl_api:1.0
+elif [[ $NODE_CONTAINER -eq 2 ]] && [[ $PYTHON_CONTAINER -eq 0 ]] && [[ $BUILD -ne 0 ]];
+    then
+        run_node_basic_container node_basic_api:1.0
+fi
+
+if [ $PYTHON_CONTAINER == 1 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -ne 0 ]]; 
+    then
+        run_python_ssl_container python_ssl_api:1.0
+elif [ $PYTHON_CONTAINER == 2 ] && [ $NODE_CONTAINER == 0 ] && [[ $BUILD -ne 0 ]];
+    then
+        run_python_basic_container python_basic_api:1.0
+fi
+
+sleep 2
+
+clear
+
 msg=$(cat << "EOF"
   ____                                      
  |  _ \ ___  ___ _   _ _ __ ___   ___ _ __  
@@ -266,6 +406,7 @@ fi
 
 printf "   🟢 SSL?: $(tput setaf 128)${NOTIF_SSL}$(tput setaf 7)\n"
 printf "   🟢 Node.js o Python?: $(tput setaf 128)${opti}$(tput setaf 7)\n"
+printf "   🟢 Construir imagen?: $(tput setaf 128)${NOTIF_BUILD}$(tput setaf 7)\n"
 
 printf "\n\n\n\n";
 read -p "Presiona [enter] para finalizar..."
