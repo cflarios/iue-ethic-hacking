@@ -25,18 +25,27 @@ msg=$(cat << "EOF"
 EOF
 )
 
-tput setaf 128;
-printf "$msg"
-tput setaf 7;
+#tput setaf 128;
+#printf "\e[1;93m$msg" 
 
-printf "\n\n\n"
-printf "   🧒 By:       $(tput setaf 128)@cflarios$(tput setaf 7)\n"
-printf "   🐙 GitHub:   $(tput setaf 128)https://github.com/cflarios$(tput setaf 7)\n"
-printf "   📅 Date:     $(tput setaf 128)$(date +"%A, %d %B %Y, %T %Z")$(tput setaf 7)\n"
-printf "   🖥️  OS:       $(tput setaf 128)$(lsb_release -d | awk '{print $2, $3, $4}')$(tput setaf 7)\n\n" 
+banner() {
+    printf "\e[1;92m  _   _            _               \e[0m\e[1;77m  _____ _   _           \e[0m\n"
+    printf "\e[1;92m | | | | __ _  ___| | _____  ___   \e[0m\e[1;77m | ____| |_(_) ___ ___  \e[0m\n"
+    printf "\e[1;92m | |_| |/ _\` |/ __| |/ / _ \/ _ \ \e[0m\e[1;77m  |  _| | __| |/ __/ _ \ \e[0m\n"
+    printf "\e[1;92m |  _  | (_| | (__|   <  __/ (_) | \e[0m\e[1;77m | |___| |_| | (_| (_) |\e[0m\n"
+    printf "\e[1;92m |_| |_|\__,_|\___|_|\_\___|\___/  \e[0m\e[1;77m |_____|\__|_|\___\___/ \e[0m\n"
+    printf "\e[1;92m                                                          \e[0m\n"
+
+    printf " \e[1;77m       v1.0 coded by github.com/cflarios\e[0m \n"
+}
+banner
+# printf "\n\n\n"
+# printf "\e[1;92m[\e[0m\e[1;77m01\e[0m\e[1;92m]\e[0m \e[1;77mDate:   \e[1;93m$(date +"%A, %d %B %Y, %T %Z UTC")$(tput setaf 7)\n"
+# printf "\e[1;92m[\e[0m\e[1;77m02\e[0m\e[1;92m]\e[0m \e[1;77mOS:     \e[1;93m$(lsb_release -d | awk '{print $2, $3, $4}')$(tput setaf 7)\n\n" 
+
 
 printf "\n\n"
-read -p "Presiona [enter] para continuar..."                                                                                                                                                                                                                
+read -p "Presiona [enter] para comenzar..."                                                                                                                                                                                                                
 
 clear 
 
@@ -47,80 +56,92 @@ printf "\n\n📦 Comprobando requisitos... \n\n"
 
 # Linux
 
-printf "   🐧 Linux: "
+printf "\e[0m   🐧 Linux: "
 if [ -x "$(command -v lsb_release)" ]; then
-    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+    printf "\e[1;93m   Instalado ✅\e[0m\n"
 else
-    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "\e[1;91m   No instalado ❌\e[0m\n"
     exit 1
 fi
 
-sleep 1
+sleep 0.5
+
+# Tmux
+
+printf "\e[0m   📦 Tmux: "
+if [ -x "$(command -v tmux)" ]; then
+    printf "\e[1;93m    Instalado ✅\e[0m\n"
+else
+    printf "\e[1;91m    No instalado ❌\e[0m\n"
+    printf "   📦 Instalando Tmux... \n"
+    sudo apt install tmux
+    printf "   📦 Tmux instalado ✅\n"
+fi
 
 # Docker
-printf "   🐋 Docker: "
+printf "\e[0m   🐋 Docker: "
 if [ -x "$(command -v docker)" ]; then
-    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+    printf "\e[1;93m  Instalado ✅\e[0m\n"
 else
-    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "\e[1;91m  No instalado ❌\e[0m\n"
     printf "   🐋 Instalando Docker... \n"
     curl -fsSL https://get.docker.com -o get-docker.sh
     sh get-docker.sh
     printf "   🐋 Docker instalado ✅\n"
 fi
 
-sleep 1
+sleep 0.5
 
 # Node
 
-printf "   📦 Node: "
+printf "\e[0m   📦 Node: "
 if [ -x "$(command -v node)" ]; then
-    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+    printf "\e[1;93m    Instalado ✅\e[0m\n"
 else
-    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "\e[1;91m    No instalado ❌\e[0m\n"
     printf "   📦 Instalando Node... \n"
     curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
     sudo apt-get install -y nodejs
     printf "   📦 Node instalado ✅\n"
 fi
 
-sleep 1
+sleep 0.5
 
 # NPM
 
-printf "   📦 NPM: "
+printf "\e[0m   📦 NPM: "
 if [ -x "$(command -v npm)" ]; then
-    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+    printf "\e[1;93m     Instalado ✅\e[0m\n"
 else
-    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "\e[1;91m     No instalado ❌\e[0m\n"
     printf "   📦 Instalando NPM... \n"
     sudo apt install npm
     printf "   📦 NPM instalado ✅\n"
 fi
 
-sleep 1
+sleep 0.5
 
 # Python
 
-printf "   🐍 Python: "
+printf "\e[0m   🐍 Python: "
 if [ -x "$(command -v python3)" ]; then
-    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+    printf "\e[1;93m  Instalado ✅\e[0m\n"
 else
-    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "\e[1;91m  No instalado ❌\e[0m\n"
     printf "   🐍 Instalando Python... \n"
     sudo apt install python3
     printf "   🐍 Python instalado ✅\n"
 fi
 
-sleep 1
+sleep 0.5
 
 #Pip
 
-printf "   🐍 Pip: "
+printf "\e[0m   🐍 Pip: "
 if [ -x "$(command -v pip3)" ]; then
-    printf "$(tput setaf 2)Instalado ✅$(tput setaf 7)\n"
+    printf "\e[1;93m     Instalado ✅\e[0m\n"
 else
-    printf "$(tput setaf 1)No instalado ❌$(tput setaf 7)\n"
+    printf "\e[1;91m     No instalado ❌\e[0m\n"
     printf "   🐍 Instalando Pip... \n"
     sudo apt install python3-pip
     printf "   🐍 Pip instalado ✅\n"
@@ -134,7 +155,7 @@ clear
 ## ______________________________
 #Superadmin?
 
-printf "\n\n👥 ¿Necesitas ejecutar con permisos de administrador? \n\n"
+printf "\n\n👥 ¿Necesitas ejecutar \e[1;94mDocker\e[0m con permisos de administrador? \n\n"
 
 PS3='   Superadmin?: '
 options=("Sí" "No")
@@ -180,10 +201,10 @@ run_node_basic_container() {
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_NODE_BASIC_ID
     sleep 1
-    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
+    printf "\n\n🛑 Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_BASIC_ID
     sleep 1
-    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
+    printf "\n\n🛑 Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
@@ -196,6 +217,7 @@ run_python_basic_container() {
     sleep 1
     $SUPERADMIN docker logs $CONTAINER_PYTHON_BASIC_ID
     sleep 3
+    clear
     printf "\n\n📨 Publicando datos...\n\n"
     curl -X POST -H "Content-Type: application/json" -d '{"task": "Hacer compras"}' http://localhost:5000/data
     sleep 3
@@ -210,10 +232,10 @@ run_python_basic_container() {
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_PYTHON_BASIC_ID
     sleep 1
-    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
+    printf "\n\n🛑 Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_BASIC_ID
     sleep 1
-    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
+    printf "\n\n🛑 Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
@@ -246,10 +268,10 @@ run_node_ssl_container() {
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_NODE_SSL_ID
     sleep 1
-    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
+    printf "\n\n🛑 Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_NODE_SSL_ID
     sleep 1
-    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
+    printf "\n\n🛑 Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
@@ -279,10 +301,10 @@ run_python_ssl_container() {
     printf "\n\n🛑 Deteniendo el contenedor $1...\n\n"
     $SUPERADMIN docker stop $CONTAINER_PYTHON_SSL_ID
     sleep 1
-    printf "\n\n☠️  Eliminando el contenedor $1...\n\n"
+    printf "\n\n🛑 Eliminando el contenedor $1...\n\n"
     $SUPERADMIN docker rm $CONTAINER_PYTHON_SSL_ID
     sleep 1
-    printf "\n\n🫡  Eliminando la imagen $1...\n\n"
+    printf "\n\n🛑 Eliminando la imagen $1...\n\n"
     $SUPERADMIN docker rmi $1
     sleep 1
 }
@@ -504,7 +526,7 @@ clear
 ## ______________________________
 #Build image
 
-printf "\n\n🐋 ¿Quieres usar Docker? $(tput setaf 128)(Recomendado)$(tput setaf 7) \n\n"
+printf "\n\n🐋 ¿Quieres usar Docker? \e[1;93m(Recomendado)\e[0m \n\n"
 printf "   Si tu respuesta es 'SÍ', selecciona '1'. \n"
 printf "   Si tu respuesta es 'No', selecciona '2'. \n\n"
 
@@ -581,35 +603,43 @@ sleep 1
 clear
 
 msg=$(cat << "EOF"
-  ____                                      
- |  _ \ ___  ___ _   _ _ __ ___   ___ _ __  
- | |_) / _ \/ __| | | | '_ ` _ \ / _ \ '_ \ 
- |  _ <  __/\__ \ |_| | | | | | |  __/ | | |
- |_| \_\___||___/\__,_|_| |_| |_|\___|_| |_|
+    +==============================================+
+    |  ____                                        |
+    | |  _ \ ___  ___ _   _ _ __ ___   ___ _ __    |
+    | | |_) / _ \/ __| | | | '_ ` _ \ / _ \ '_ \   |
+    | |  _ <  __/\__ \ |_| | | | | | |  __/ | | |  |
+    | |_| \_\___||___/\__,_|_| |_| |_|\___|_| |_|  |
+    |                                              |
+    +==============================================+ 
 EOF
 )
 
-tput setaf 128;
-printf "$msg"
+#tput setaf 128;
+printf "\e[1;93m$msg"
 tput setaf 7;
 
 printf "\n\n\n"
 
 if [ $optio == 1 ]; 
     then
-        printf "   🟢 Superadmin?: $(tput setaf 128)${NOTIF_SUPERADMIN}$(tput setaf 7)\n" 
+        printf "        \e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m]\e[0m \e[1;77mSuperadmin?:\e[0m              \e[0m\e[1;93m${NOTIF_SUPERADMIN}\n" 
     else
-        printf "   🟢 Superadmin?: $(tput setaf 128)${NOTIF_SUPERADMIN}$(tput setaf 7)\n"
+        printf "        \e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m]\e[0m \e[1;77mSuperadmin?:\e[0m              \e[0m\e[1;93m${NOTIF_SUPERADMIN}\n"
 fi
 
-printf "   🟢 SSL?: $(tput setaf 128)${NOTIF_SSL}$(tput setaf 7)\n"
-printf "   🟢 Node.js o Python?: $(tput setaf 128)${opti}$(tput setaf 7)\n"
-printf "   🟢 Docker?: $(tput setaf 128)${NOTIF_BUILD}$(tput setaf 7)\n"
+printf "        \e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m]\e[0m \e[1;77mSSL?:\e[0m                     \e[0m\e[1;93m${NOTIF_SSL}\n"
+printf "        \e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m]\e[0m \e[1;77mNode.js o Python?:\e[0m        \e[0m\e[1;93m${opti}\n"
+printf "        \e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m]\e[0m \e[1;77mDocker?:\e[0m                  \e[0m\e[1;93m${NOTIF_BUILD}\n"
 
-printf "\n\n";
+printf "\e[0m\n\n";
 read -p "Presiona [enter] para finalizar..."
 sleep 1
 
 clear
 
+banner
+
+sleep 1
+
+clear
 exit 0
