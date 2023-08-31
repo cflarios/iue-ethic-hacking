@@ -1,6 +1,8 @@
-# Simple DDoS Script
+# Simple DoS Script
 
-This is a simple DDoS script written in Python that sends HTTP GET requests to a target server.
+**Disclaimer**: This guide is for educational purposes only. Unauthorized and malicious use of this script to flood requests to a server is illegal and unethical.
+
+This is a simple DoS script written in Python that sends HTTP GET requests to a target server.
 
 ## Prerequisites
 
@@ -8,7 +10,7 @@ This is a simple DDoS script written in Python that sends HTTP GET requests to a
 
 ## Usage
 
-1. Clone this repository or download the `ddos.py` and `ddos` directory.
+1. Clone this repository or download the `dos.py` and `ddos` directory.
 
 2. Start a simple HTTP server to act as the target:
 
@@ -18,10 +20,10 @@ This is a simple DDoS script written in Python that sends HTTP GET requests to a
 
 3. In a separate terminal, navigate to the directory containing the ddos.py script.
 
-4. Run the DDoS script with the following command:
+4. Run the DoS script with the following command:
 
     ```bash
-    python ddos.py <target> <port> <path> <num_threads>
+    python dos.py <target> <port> <path> <num_threads>
     ```
     Replace the placeholders with the following values:
 
@@ -36,7 +38,7 @@ This is a simple DDoS script written in Python that sends HTTP GET requests to a
     For example:
 
     ```bash
-    python ddos.py 127.0.0.1 5500 ddos/index.html 10
+    python dos.py 127.0.0.1 5500 ddos/python/index.html 10
     ```
 
 5. The script will start sending HTTP requests to the specified target. It will display whether the requests were successfully sent or if an error occurred. If an error occurs in any thread, the script will stop and display an error message.
