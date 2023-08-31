@@ -41,43 +41,43 @@ Cómo configurar autenticación mutua utilizando certificados en una REST API co
 
 1. Modifica el código de tu servidor (archivo `index.js` o en este caso `server.js`) para habilitar la autenticación de cliente:
 
-```
-// ...
+    ```
+    // ...
 
-// Opciones para TLS/SSL
-const options = {
-  key: fs.readFileSync('cert/private-key.pem'),
-  cert: fs.readFileSync('cert/public-cert.pem'),
-  requestCert: true,
-  rejectUnauthorized: true,
-  ca: fs.readFileSync('client-cert/public-cert.pem')
-};
+    // Opciones para TLS/SSL
+    const options = {
+      key: fs.readFileSync('cert/private-key.pem'),
+      cert: fs.readFileSync('cert/public-cert.pem'),
+      requestCert: true,
+      rejectUnauthorized: true,
+      ca: fs.readFileSync('client-cert/public-cert.pem')
+    };
 
-// ...
+    // ...
 
-// Verificar la autenticación del cliente
-app.use((req, res, next) => {
-  if (req.client.authorized) {
-    next();
-  } else {
-    res.status(401).send('No autorizado. Certificado de cliente inválido.');
-  }
-});
+    // Verificar la autenticación del cliente
+    app.use((req, res, next) => {
+      if (req.client.authorized) {
+        next();
+      } else {
+        res.status(401).send('No autorizado. Certificado de cliente inválido.');
+      }
+    });
 
-// ...
+    // ...
 
-// Iniciar el servidor
-server.listen(port, () => {
-  console.log(`Servidor en funcionamiento en https://localhost:${port}`);
-});
-```
+    // Iniciar el servidor
+    server.listen(port, () => {
+      console.log(`Servidor en funcionamiento en https://localhost:${port}`);
+    });
+    ```
 ## Paso 4: Realizar pruebas
 
-1. Utiliza `curl` o cualquier otra herramienta similar para realizar solicitudes al servidor utilizando certificados de cliente:
+Utiliza `curl` o cualquier otra herramienta similar para realizar solicitudes al servidor utilizando certificados de cliente:
 
-    ```bash
-    curl --cert client-cert/public-cert.pem --key client-cert/private-key.pem --cacert cert/public-cert.pem https://localhost:${port}/authenticate
-    ```
+```bash
+curl --cert client-cert/public-cert.pem --key client-cert/private-key.pem --cacert cert/public-cert.pem https://localhost:${port}/authenticate
+```
 
 ## EXTRA: Uso de Docker
 
@@ -85,20 +85,20 @@ Si se desea usar una imagen de Docker, solo se necesitan unos cuantos pasos.
 
 1. Construir la imagen de Docker:
 
-Abre una terminal en el mismo directorio que los archivos y el Dockerfile, y ejecuta el siguiente comando para construir la imagen de Docker:
+    Abre una terminal en el mismo directorio que los archivos y el Dockerfile, y ejecuta el siguiente comando para construir la imagen de Docker:
 
-```bash
-docker build -t node_ssl_api:1.0 .
-```
+    ```bash
+    docker build -t node_ssl_api:1.0 .
+    ```
 
-Esto creará una imagen llamada `node_ssl_api` con la versión `1.0`.
+    Esto creará una imagen llamada `node_ssl_api` con la versión `1.0`.
 
 2. Ejecutar un contenedor con la imagen:
 
-Una vez que la imagen esté construida, puedes ejecutar un contenedor basado en ella con el siguiente comando:
+    Una vez que la imagen esté construida, puedes ejecutar un contenedor basado en ella con el siguiente comando:
 
-```bash
-docker run -p 4433:4433 node_ssl_api:1.0   
-```
+    ```bash
+    docker run -p 4433:4433 node_ssl_api:1.0   
+    ```
 
 **NOTA**: Este contenedor solo tendrá el `servidor`, el `cliente` se ejecuta desde tu máquina host.

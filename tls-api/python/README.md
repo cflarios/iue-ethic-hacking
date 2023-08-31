@@ -44,20 +44,20 @@ Si se desea usar una imagen de Docker, solo se necesitan unos cuantos pasos.
 
 1. Construir la imagen de Docker:
 
-Abre una terminal en el mismo directorio que los archivos y el Dockerfile, y ejecuta el siguiente comando para construir la imagen de Docker:
+    Abre una terminal en el mismo directorio que los archivos y el Dockerfile, y ejecuta el siguiente comando para construir la imagen de Docker:
 
-```bash
-docker build -t python_ssl_api:1.0 .
-```
+    ```bash
+    docker build -t python_ssl_api:1.0 .
+    ```
 
-Esto creará una imagen llamada `python_ssl_api` con la versión `1.0`.
+    Esto creará una imagen llamada `python_ssl_api` con la versión `1.0`.
 
 2. Ejecutar un contenedor con la imagen:
 
-Una vez que la imagen esté construida, puedes ejecutar un contenedor basado en ella con el siguiente comando:
+    Una vez que la imagen esté construida, puedes ejecutar un contenedor basado en ella con el siguiente comando:
 
-```bash
-docker run -p 4443:4443 python_ssl_api:1.0   
-```
+    ```bash
+    docker run -p 4443:4443 python_ssl_api:1.0   
+    ```
 
 **NOTA**: Este contenedor solo tendrá el `servidor`, el `cliente` se ejecuta desde tu máquina host.
