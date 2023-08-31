@@ -44,6 +44,23 @@ This guide explains how to use the provided Bash script to simulate an HTTP GET 
 
     Save the file with a .sh extension, such as http_flood.sh.
 
-Make the Script Executable:
+5. Make the Script Executable:
 
-In your terminal, navigate to the directory containing the script and make it executable by running:
+    In your terminal, navigate to the directory containing the script and make it executable by running:
+
+    ```bash
+    chmod +x http_flood.sh
+    ```
+6. Run the Script:
+
+    Execute the script by running:
+    ```bash
+    ./http_flood.sh
+    ```
+7. Observe the Effect:
+
+    The script will start sending HTTP GET requests to the specified server IP address and port. It will repeat this process according to the NUM_REQUESTS value you set. The server may become overwhelmed, impacting its availability.
+
+## Warning
+
+This guide and the provided script are for educational purposes only. Launching real Distributed Denial of Service (DDoS) attacks is illegal and unethical. Always use your knowledge responsibly and respect the security and integrity of computer systems and networks.
