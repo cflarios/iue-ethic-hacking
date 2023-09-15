@@ -26,6 +26,15 @@ def crear_usuario():
     if 'id' not in data or 'nombre' not in data or 'email' not in data:
         return jsonify({'mensaje': 'Faltan datos obligatorios'}), 400
 
+    #Modificar el payload
+    data['id'] = int(data['id'])
+    data['nombre'] = str(data['nombre'])
+    data['email'] = str(data['email'])
+
+    # Modificar el payload antes de crear el usuario (descomentar las líneas de abajo)
+    # data['nombre'] = 'MODIFICADO: ' + data['nombre']
+    # data['email'] = 'modificado_' + data['email']
+
     nuevo_usuario = Usuario(data['id'], data['nombre'], data['email'])
     usuarios.append(nuevo_usuario)
 
